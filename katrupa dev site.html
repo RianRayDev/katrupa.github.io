@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Under Development</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            font-family: "Montserrat", sans-serif;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            background-color: #0b304e;
+            cursor: none;
+        }
+        .gradient-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.5;
+            transition: all 10s ease-in-out;
+        }
+        #blob1 {
+            width: 100vw;
+            height: 100vw;
+            max-width: 1000px;
+            max-height: 1000px;
+            background: radial-gradient(circle, #285b9b, #08255b);
+            left: -50vw;
+            top: -50vw;
+        }
+        #blob2 {
+            width: 70vw;
+            height: 70vw;
+            max-width: 700px;
+            max-height: 700px;
+            background: radial-gradient(circle, #605cb3, #010a34);
+            right: -35vw;
+            bottom: -35vw;
+        }
+        .container {
+            max-width: 90%;
+            position: relative;
+            z-index: 1;
+        }
+        h1 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+        }
+        p {
+            font-size: clamp(1rem, 3vw, 2rem);
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+        .animated-text {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        .animated-text span {
+            display: inline-block;
+            transition: transform 0.3s ease-out;
+        }
+        #custom-cursor {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: white;
+            position: fixed;
+            pointer-events: none;
+            mix-blend-mode: difference;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
+        }
+        .credit {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            text-decoration: none;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        .credit:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            opacity: 1;
+        }
+
+        /* Loading Animation */
+        .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0b304e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+.loading-animation {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Animated Ellipsis */
+.ellipsis {
+            font-size: 10rem;
+            height: 10rem;
+            margin-bottom: 0px;
+            overflow: visible;
+            margin-top: -120px;
+            position: relative;
+        }
+        .ellipsis span {
+            display: inline-block;
+            opacity: 0;
+            animation: ellipsis-dot 1.5s infinite;
+        }
+        .ellipsis span:nth-child(1) { animation-delay: 0s; }
+        .ellipsis span:nth-child(2) { animation-delay: 0.5s; }
+        .ellipsis span:nth-child(3) { animation-delay: 1s; }
+        @keyframes ellipsis-dot {
+            0%, 100% { 
+                opacity: 0;
+                transform: translateY(5px);
+            }
+            50% { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* New Dropping Logo Placeholder */
+        .logo-placeholder {
+            position: absolute;
+            right: -60px;
+            top: -60px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            opacity: 0;
+            transform: scale(0.1);
+            animation: drop-fade 2s ease-in-out forwards;
+            animation-delay: 1.5s;
+        }
+        .logo-placeholder img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            margin: 0;
+            padding: 0;
+            opacity: 1;
+        }
+        @keyframes drop-fade {
+            0% {
+                transform: scale(0.1) translateY(-100px);
+                opacity: 0;
+            }
+            60% {
+                transform: scale(1.2) translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 767px) {
+            body {
+                background-color: #0b304e;
+                background-image: linear-gradient(45deg, #0b304e 25%, #08255b 25%, #08255b 50%, #0b304e 50%, #0b304e 75%, #08255b 75%, #08255b 100%);
+                background-size: 56.57px 56.57px;
+                animation: gradientMove 10s linear infinite;
+            }
+            @keyframes gradientMove {
+                0% {background-position: 0 0;}
+                100% {background-position: 56.57px 56.57px;}
+            }
+            #blob1, #blob2 {
+                display: none;
+            }
+            .container {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            }
+        }
+
+        /* Tablet Styles */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            body {
+                background-color: #0b304e;
+                background-image: radial-gradient(circle at 50% 50%, #285b9b, #08255b);
+                animation: pulse 10s ease-in-out infinite;
+            }
+            @keyframes pulse {
+                0%, 100% {background-size: 100% 100%;}
+                50% {background-size: 120% 120%;}
+            }
+            #blob1, #blob2 {
+                opacity: 0.3;
+            }
+            .container {
+                text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-overlay">
+        <div class="loading-animation"></div>
+        </div>
+    </div>
+    <div class="gradient-blob" id="blob1"></div>
+    <div class="gradient-blob" id="blob2"></div>
+    <div id="custom-cursor"></div>
+    <div class="container">
+        <div class="ellipsis">
+            <span>.</span><span>.</span><span>.</span>
+            <div class="logo-placeholder">
+                <img src="42146794_100228317615561_7146742039135125504_n.jpg" alt="Logo">
+            </div>
+        </div>
+        <h1 id="mainTitle" class="animated-text">Thank you for trusting</h1><br>
+        <p id="subTitle" class="animated-text">Your website is under development.</p>
+        <p id="message" class="animated-text">You may come back at a later time. Have a nice day ahead!</p>
+    </div>
+    <a href="https://www.rianray.com" class="credit" id="credit">by www.rianray.com</a>
+
+    <script>
+ function animateText(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.innerText;
+            element.innerHTML = '';
+            for (let i = 0; i < text.length; i++) {
+                const span = document.createElement('span');
+                span.textContent = text[i] === ' ' ? '\u00A0' : text[i];
+                element.appendChild(span);
+            }
+        }
+
+        function handleMouseMove(event) {
+            const cursor = document.getElementById('custom-cursor');
+            cursor.style.left = `${event.clientX}px`;
+            cursor.style.top = `${event.clientY}px`;
+
+            document.querySelectorAll('.animated-text span').forEach(span => {
+                const rect = span.getBoundingClientRect();
+                const spanX = rect.left + rect.width / 2;
+                const spanY = rect.top + rect.height / 2;
+                
+                const deltaX = event.clientX - spanX;
+                const deltaY = event.clientY - spanY;
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                
+                const maxDistance = 100;
+                const scale = Math.min(distance / maxDistance, 1);
+                
+                const translateX = deltaX * 0.5 * (1 - scale);
+                const translateY = deltaY * 0.5 * (1 - scale);
+                
+                span.style.transform = `translate(${translateX}px, ${translateY}px)`;
+            });
+        }
+
+        function animateBackground() {
+            const blob1 = document.getElementById('blob1');
+            const blob2 = document.getElementById('blob2');
+
+            function moveBlob(blob) {
+                const x = Math.random() * (window.innerWidth - 300);
+                const y = Math.random() * (window.innerHeight - 300);
+                blob.style.transform = `translate(${x}px, ${y}px)`;
+            }
+
+            setInterval(() => {
+                moveBlob(blob1);
+                moveBlob(blob2);
+            }, 10000);
+        }
+
+        function animateTextOnLoad() {
+            const elements = document.querySelectorAll('.animated-text');
+            elements.forEach((element, index) => {
+                setTimeout(() => {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, index * 300);
+            });
+        }
+
+        document.getElementById('credit').addEventListener('mouseenter', () => {
+            document.getElementById('blob1').style.opacity = '0.7';
+            document.getElementById('blob2').style.opacity = '0.7';
+        });
+
+        document.getElementById('credit').addEventListener('mouseleave', () => {
+            document.getElementById('blob1').style.opacity = '0.5';
+            document.getElementById('blob2').style.opacity = '0.5';
+        });
+
+        function animateTextOnLoad() {
+    const elements = document.querySelectorAll('.animated-text');
+    elements.forEach((element, index) => {
+        setTimeout(() => {
+            element.style.opacity = '1';
+            element.style.transform = 'translateY(0)';
+        }, (index + 1) * 300); // +1 to start after ellipsis animation
+    });
+}
+
+window.onload = function() {
+            setTimeout(() => {
+                document.querySelector('.loading-overlay').style.display = 'none';
+                document.querySelector('.ellipsis').style.display = 'block';
+                document.querySelector('.logo-placeholder').style.display = 'block';
+                animateText('mainTitle');
+                animateText('subTitle');
+                animateText('message');
+                animateTextOnLoad();
+                
+                if (window.innerWidth > 768) {
+                    document.addEventListener('mousemove', handleMouseMove);
+                    animateBackground();
+                } else {
+                    document.getElementById('custom-cursor').style.display = 'none';
+                }
+
+                document.querySelectorAll('.animated-text span').forEach(span => {
+                    span.addEventListener('mouseenter', () => {
+                        document.getElementById('custom-cursor').style.width = '30px';
+                        document.getElementById('custom-cursor').style.height = '30px';
+                    });
+                    span.addEventListener('mouseleave', () => {
+                        document.getElementById('custom-cursor').style.width = '20px';
+                        document.getElementById('custom-cursor').style.height = '20px';
+                    });
+                });
+            }, 800);
+        };
+    </script>
+</body>
+</html>
